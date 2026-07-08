@@ -7,6 +7,21 @@
             <p class="text-gray-600">Semoga Allah memberkahi waktu belajar Anda hari ini. Mari lanjutkan perjalanan menuntut ilmu.</p>
         </div>
 
+        <div class="bg-gradient-to-r from-emerald-700 to-teal-900 rounded-2xl p-6 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-4 border border-emerald-600 transform transition-all hover:scale-[1.01]">
+            <div class="flex items-center gap-4 w-full">
+                <div class="p-3 bg-white bg-opacity-20 rounded-xl shrink-0">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold">Panel Administrator</h2>
+                    <p class="text-emerald-100 text-sm mt-1">Akses cepat untuk Tambah, Edit, dan Hapus kursus.</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.courses.index') }}" class="w-full md:w-auto text-center bg-white text-emerald-800 hover:bg-emerald-50 focus:ring-4 focus:ring-emerald-300 font-bold py-3 px-6 rounded-xl shadow-md transition-all whitespace-nowrap">
+                Buka Kelola Kursus &rarr;
+            </a>
+        </div>
+
         <div>
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-gray-900">Progres Belajar</h2>
@@ -55,13 +70,13 @@
                                  <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-700 transition-colors">{{ $course->title }}</h3>
                                  <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ $course->description }}</p>
                                  <div class="flex items-center justify-between">
-                                     <span class="text-xs text-gray-500">📖 Mulai Belajar</span>
+                                     <span class="text-xs text-gray-500"> 📖  Mulai Belajar</span>
                                      <span class="text-emerald-600 font-medium text-sm group-hover:text-emerald-800">Lihat Modul &rarr;</span>
                                  </div>
                              </div>
                          </a>
                      </div>
-                 @endforeach
+                    @endforeach
                 </div>
             @else
                 <div class="bg-white p-8 rounded-xl border border-gray-200 text-center">

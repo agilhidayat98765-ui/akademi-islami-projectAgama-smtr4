@@ -16,15 +16,15 @@ class DatabaseSeeder extends Seeder
         // 1. Membuat Akun
         User::create([
             'name' => 'Administrator',
-            'email' => 'admin@akademi.com',
-            'password' => Hash::make('password123'),
+            'email' => 'admin@umsida.ac.id',
+            'password' => Hash::make('admin123'),
             'role' => 'admin',
         ]);
 
         User::create([
-            'name' => 'Ahmad',
-            'email' => 'ahmad@gmail.com',
-            'password' => Hash::make('password123'),
+            'name' => 'Mahasiswa',
+            'email' => 'mahasiswa@umsida.ac.id',
+            'password' => Hash::make('mahasiswa123'),
             'role' => 'user',
         ]);
 

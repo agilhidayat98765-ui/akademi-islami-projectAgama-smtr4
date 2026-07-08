@@ -49,9 +49,11 @@ class QuizController extends Controller
         );
 
         if ($isPassed) {
-            return redirect()->route('courses.index')->with('success', "Alhamdulillah! Anda lulus kuis dengan nilai $score.");
+            // Mengarahkan ke halaman selebrasi sertifikat
+            return view('quiz.success');
         } else {
-            return redirect()->back()->with('error', "Nilai Anda $score. Silakan ulangi materi dan kuis kembali.");
+            // Tetap di halaman kuis agar siswa bisa mencoba lagi
+            return redirect()->back()->with('error', "Nilai Anda $score. Belum mencapai batas lulus (70). Silakan coba lagi ya!");
         }
     }
 }

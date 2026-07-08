@@ -51,6 +51,12 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-nav-link :href="route('admin.courses.index')" :active="request()->routeIs('admin.courses.*')">
+                      {{ __('Kelola Kursus (Admin)') }}
+                 </x-nav-link>
+            </div>
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">

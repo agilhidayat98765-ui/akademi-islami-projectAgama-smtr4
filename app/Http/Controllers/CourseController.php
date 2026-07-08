@@ -9,17 +9,42 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    // Menampilkan halaman "Kursus Saya" beserta daftar favorit
+    // 1. Menampilkan halaman "Kursus Saya" (Tab Sedang Dipelajari, Selesai, & Favorit)
     public function index()
     {
-        $courses = Course::with('category')->get();
+        $user = Auth::user();
+        
+        $allCourses = Course::with(['category', 'modules'])->get();
+        
+        $courses = collect(); 
+        $completedCourses = collect(); 
 
-        // Mengambil daftar kursus yang hanya difavoritkan oleh user yang sedang login
-        $favoriteCourses = Auth::user()->favoriteCourses()->with('category')->get();
+        foreach ($allCourses as $course) {
+            $totalModules = $course->modules->count();
+            
+            if ($totalModules > 0) {
+                $lulusCount = \App\Models\UserProgress::where('user_id', $user->id)
+                    ->whereIn('module_id', $course->modules->pluck('id'))
+                    ->where('is_completed', true)
+                    ->count();
 
-        return view('courses.index', compact('courses', 'favoriteCourses'));
+                // Jika sudah ada kuis materi yang lulus, masukkan ke tab Selesai
+                if ($lulusCount > 0) {
+                    $completedCourses->push($course);
+                } else {
+                    $courses->push($course);
+                }
+            } else {
+                $courses->push($course);
+            }
+        }
+
+        $favoriteCourses = $user->favoriteCourses()->with('category')->get();
+
+        return view('courses.index', compact('courses', 'completedCourses', 'favoriteCourses'));
     }
 
+    // 2. Fungsi untuk mengarahkan ke materi pertama saat kursus diklik
     public function show(Course $course)
     {
         $firstModule = $course->modules()->orderBy('order', 'asc')->first();
@@ -31,6 +56,7 @@ class CourseController extends Controller
         return back()->with('error', 'Materi belum tersedia untuk kursus ini.');
     }
 
+    // 3. Menampilkan halaman materi dan video
     public function showModule(Module $module)
     {
         $course = $module->course()->with(['modules' => function($query) {
@@ -40,10 +66,21 @@ class CourseController extends Controller
         return view('modules.show', compact('module', 'course'));
     }
 
-    // Fungsi mengaktifkan/mematikan tombol favorit
+    // 4. Mengaktifkan/mematikan tombol favorit (ikon hati)
     public function toggleFavorite(Course $course)
     {
         Auth::user()->favoriteCourses()->toggle($course->id);
         return back();
+    }
+
+    // 5. Fitur Tandai Selesai secara manual (dipanggil oleh Route)
+    public function markAsComplete(Request $request, Module $module)
+    {
+        \App\Models\UserProgress::updateOrCreate(
+            ['user_id' => Auth::id(), 'module_id' => $module->id],
+            ['is_completed' => true, 'score' => 100]
+        );
+
+        return back()->with('success', 'Materi berhasil ditandai selesai.');
     }
 }
